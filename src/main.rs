@@ -17,7 +17,7 @@ struct Args {
     #[arg(short, long, default_value_t = 0.01)]
     dt: f64,
     /// Num of Simlation steps
-    #[arg(short = 't', long, default_value_t = 1000)]
+    #[arg(short = 't', long, default_value_t = 10000)]
     simsteps: u32,
 }
 
@@ -68,5 +68,14 @@ fn main() {
         v = vnew;
 
     }
-    println!("{trajectory:?}");
+
+    let mut wtr = csv::Writer::from_path("lorenzdata.csv").unwrap();
+    wtr.write_record(["x", "y", "z"]).unwrap();
+
+    for v in trajectory {
+        wtr.write_record([v.x.to_string(), v.y.to_string(), v.z.to_string()]).unwrap();
+    }
+
+    wtr.flush().unwrap();
+
 }
