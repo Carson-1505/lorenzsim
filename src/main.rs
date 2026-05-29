@@ -50,14 +50,19 @@ fn main() {
 
     println!("{args:?}");
 
-    let v = Variables {x: 1.0, y: 1.0, z: 1.0};
-    let derivative = v.derivative(sigma, rho, beta);
+    let mut v = Variables {x: 1.0, y: 1.0, z: 1.0};
 
-    println!("{v:?}");
-    println!("{derivative:?}");
 
     // Create for loop for each time step?
-   // for t in 0..args.simsteps {
+    for _t in 0..args.simsteps {
+        let derivative = v.derivative(sigma, rho, beta);
+        let xnew = v.x + args.dt*derivative[0];
+        let ynew = v.y + args.dt*derivative[1];
+        let znew = v.z + args.dt*derivative[2];
 
-    //}
+        let vnew = Variables{x:xnew, y:ynew, z:znew};
+        v = vnew;
+        println!("{v:?}");
+
+    }
 }
