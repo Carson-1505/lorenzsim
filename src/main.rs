@@ -17,13 +17,13 @@ struct Args {
     #[arg(short, long, default_value_t = 0.01)]
     dt: f64,
     /// Num of Simlation steps
-    #[arg(short = 't', long, default_value_t = 10000)]
+    #[arg(short = 't', long, default_value_t = 1000)]
     simsteps: u32,
 }
 
     // Define x, y, z
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Variables {
 
     x: f64,
@@ -51,6 +51,8 @@ fn main() {
     println!("{args:?}");
 
     let mut v = Variables {x: 1.0, y: 1.0, z: 1.0};
+    let mut trajectory = Vec::new();
+    trajectory.push(v.clone());
 
 
     // Create for loop for each time step?
@@ -60,9 +62,11 @@ fn main() {
         let ynew = v.y + args.dt*derivative[1];
         let znew = v.z + args.dt*derivative[2];
 
+
         let vnew = Variables{x:xnew, y:ynew, z:znew};
+        trajectory.push(vnew.clone());
         v = vnew;
-        println!("{v:?}");
 
     }
+    println!("{trajectory:?}");
 }
