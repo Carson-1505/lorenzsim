@@ -1,45 +1,11 @@
+mod args;
+mod variable;
+
+use args::Args;
 use clap::Parser;
+use variable::{save_trajectory, Variables};
 
-/// Simple program to greet a person
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-struct Args {
-    /// The Prandtl number
-    #[arg(short, long, default_value_t = 10.0)]
-    sigma: f64,
-    /// The Rayleigh number
-    #[arg(short, long, default_value_t = 20.0)]
-    rho: f64,
-    /// The dimensions of fluid layer number
-    #[arg(short, long, default_value_t = 8.0/3.0)]
-    beta: f64,
-    /// Time step (can also be 0.001)
-    #[arg(short, long, default_value_t = 0.01)]
-    dt: f64,
-    /// Num of Simlation steps
-    #[arg(short = 't', long, default_value_t = 10000)]
-    simsteps: u32,
-}
 
-    // Define x, y, z
-
-#[derive(Debug, Clone)]
-struct Variables {
-
-    x: f64,
-    y: f64,
-    z: f64,
-}
-
-impl Variables {
-    fn derivative(&self, sigma: f64, rho: f64, beta: f64) -> [f64; 3] {
-        [
-            sigma*( self.y - self.x ),
-            (self.x*( rho - self.z)) - self.y,
-            (self.x*self.y) - (beta*self.z),
-        ]
-    }
-}
     // Create derivative Function for x, y, z
 
 fn main() {
@@ -69,13 +35,8 @@ fn main() {
 
     }
 
-    let mut wtr = csv::Writer::from_path("lorenzdata.csv").unwrap();
-    wtr.write_record(["x", "y", "z"]).unwrap();
-
-    for v in trajectory {
-        wtr.write_record([v.x.to_string(), v.y.to_string(), v.z.to_string()]).unwrap();
-    }
-
-    wtr.flush().unwrap();
+    save_trajectory(trajectory);
 
 }
+
+
