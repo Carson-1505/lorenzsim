@@ -16,3 +16,14 @@ impl Variables {
         ]
     }
 }
+
+pub fn save_trajectory(trajectory: Vec<Variables>) {
+    let mut wtr = csv::Writer::from_path("lorenzdata.csv").unwrap();
+    wtr.write_record(["x", "y", "z"]).unwrap();
+
+    for v in trajectory {
+        wtr.write_record([v.x.to_string(), v.y.to_string(), v.z.to_string()]).unwrap();
+    }
+
+    wtr.flush().unwrap();
+}
