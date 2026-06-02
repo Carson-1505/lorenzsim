@@ -1,25 +1,10 @@
 mod args;
+mod variable;
 
 use args::Args;
 use clap::Parser;
+use variable::Variables;
 
-#[derive(Debug, Clone)]
-struct Variables {
-
-    x: f64,
-    y: f64,
-    z: f64,
-}
-
-impl Variables {
-    fn derivative(&self, sigma: f64, rho: f64, beta: f64) -> [f64; 3] {
-        [
-            sigma*( self.y - self.x ),
-            (self.x*( rho - self.z)) - self.y,
-            (self.x*self.y) - (beta*self.z),
-        ]
-    }
-}
     // Create derivative Function for x, y, z
 
 fn main() {
