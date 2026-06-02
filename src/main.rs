@@ -34,6 +34,11 @@ fn main() {
 
     }
 
+    save_trajectory(trajectory);
+
+}
+
+fn save_trajectory(trajectory: Vec<Variables>) {
     let mut wtr = csv::Writer::from_path("lorenzdata.csv").unwrap();
     wtr.write_record(["x", "y", "z"]).unwrap();
 
@@ -42,5 +47,4 @@ fn main() {
     }
 
     wtr.flush().unwrap();
-
 }
