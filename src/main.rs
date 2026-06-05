@@ -22,16 +22,38 @@ fn main() {
 
 
     // Create for loop for each time step?
+    let method_is_euler = false;
     for _t in 0..args.simsteps {
         let derivative = v.derivative(sigma, rho, beta);
-        let xnew = v.x + args.dt*derivative[0];
-        let ynew = v.y + args.dt*derivative[1];
-        let znew = v.z + args.dt*derivative[2];
+        if method_is_euler
+        {
+            let xnew = v.x + args.dt * derivative[0];
+            let ynew = v.y + args.dt * derivative[1];
+            let znew = v.z + args.dt * derivative[2];
 
 
-        let vnew = Variables{x:xnew, y:ynew, z:znew};
-        trajectory.push(vnew.clone());
-        v = vnew;
+            let vnew = Variables{x:xnew, y:ynew, z:znew};
+            trajectory.push(vnew.clone());
+            v = vnew;
+        }
+        else {
+
+            let xmid = v.x + args.dt * 0.5 * derivative[0];
+            let ymid = v.y + args.dt * 0.5 * derivative[1];
+            let zmid = v.z + args.dt * 0.5 * derivative[2];
+
+            let vmid = Variables{x:xmid, y:ymid, z:zmid};
+            let mid_derivative = vmid.derivative(sigma, rho, beta);
+
+            let xfinal = v.x + args.dt * mid_derivative[0];
+            let yfinal = v.y + args.dt * mid_derivative[1];
+            let zfinal = v.z + args.dt * mid_derivative[2];
+
+            let finalmid = Variables{x:xfinal, y:yfinal, z:zfinal};
+            v = finalmid;
+            trajectory.push(v.clone());
+        }
+
 
     }
 
