@@ -22,10 +22,9 @@ fn main() {
 
 
     // Create for loop for each time step?
-    let method_is_euler = false;
     for _t in 0..args.simsteps {
         let derivative = v.derivative(sigma, rho, beta);
-        if method_is_euler
+        if args.method_is_euler
         {
             let xnew = v.x + args.dt * derivative[0];
             let ynew = v.y + args.dt * derivative[1];
