@@ -20,6 +20,6 @@ pub struct Args {
     #[arg(short = 't', long, default_value_t = 10000)]
     pub simsteps: u32,
     /// User control between midpoint and Euler methods
-    #[arg(short, long, default_value_t = true)]
+    #[arg(short, long)]
     pub method_is_euler: bool,
 }
