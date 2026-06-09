@@ -8,7 +8,7 @@ pub struct Args {
     #[arg(short, long, default_value_t = 10.0)]
     pub sigma: f64,
     /// The Rayleigh number
-    #[arg(short, long, default_value_t = 20.0)]
+    #[arg(short, long, default_value_t = 28.0)]
     pub rho: f64,
     /// The dimensions of fluid layer number
     #[arg(short, long, default_value_t = 8.0/3.0)]
@@ -19,4 +19,7 @@ pub struct Args {
     /// Num of Simlation steps
     #[arg(short = 't', long, default_value_t = 10000)]
     pub simsteps: u32,
+    /// User control between midpoint and Euler methods
+    #[arg(short, long)]
+    pub method_is_euler: bool,
 }
