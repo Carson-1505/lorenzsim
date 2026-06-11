@@ -6,6 +6,8 @@
     <title>Lorenz Simulation</title>
     <link rel = "icon" href = "favicon.ico">
     <link rel = "stylesheet" href = "index.css">
+    <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 <body>
 
@@ -25,7 +27,39 @@
             <!--<button onclick = "eulerButton()">Euler Method</button>-->
         </div>
     </div>
+    <div id="plot-euler" style="width:600px;height:250px;"></div>
 </body>
+
+<script>
+    async function loadCsv(){
+        const data = await d3.csv("lorenzdata_euler.csv");
+        console.log(data);
+        let x = [];
+        let y = [];
+        let z = [];
+
+        for(const d of data) {
+            x.push(d.x);
+            y.push(d.y);
+            z.push(d.z);
+        }
+        console.log(x, y, z);
+
+        PLOT = document.getElementById('plot-euler');
+        Plotly.newPlot(
+            PLOT,
+            [{
+                x: x,
+                y: y,
+                z: z,
+            }],
+            {
+                margin: { t: 0 }
+            }
+        );
+    }
+    loadCsv();
+</script>
 
 <!--<script>
     function eulerButton(){
